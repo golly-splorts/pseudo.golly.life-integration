@@ -1,3 +1,16 @@
+.navbar-dark .navbar-brand {
+    color: #6BD0FF;
+}
+
+.btn-success {
+    background-color: #559000 !important;
+    border-color: #559000 !important;
+}
+
+.bg-primary {
+    background-color: #3a3a40 !important;
+}
+
 .navbar-brand-logo {
   width: 25px;
   height: 25px;
