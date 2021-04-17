@@ -11,6 +11,10 @@
     background-color: #3a3a40 !important;
 }
 
+.badge-primary {
+    background-color: #3a3a40 !important;
+}
+
 .navbar-brand-logo {
   width: 25px;
   height: 25px;
@@ -32,6 +36,14 @@ h3 {
 
 h4 {
   font-size: 1.5rem !important;
+}
+
+h5 {
+  font-size: 1.3rem !important;
+}
+
+h6 {
+  font-size: 1.1rem !important;
 }
 
 h1, h2, h3 {
