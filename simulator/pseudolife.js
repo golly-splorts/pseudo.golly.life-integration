@@ -227,6 +227,7 @@
       } else if (this.patternName != null) {
         // Map mode with map overlay
         this.mapMode = true;
+        this.sandboxMode = true;
         this.grid.mapOverlay = true;
 
       } else if (this.random == 1) {
@@ -1194,7 +1195,7 @@
        * (sandbox mode only)
        */
       canvasMouseMove : function(event) {
-        if (GOL.sandboxMode === true || GOL.mapMode === true) {
+        if (GOL.sandboxMode === true) {
           if (GOL.handlers.mouseDown) {
             var position = GOL.helpers.mousePosition(event);
             if ((position[0] !== GOL.handlers.lastX) || (position[1] !== GOL.handlers.lastY)) {
@@ -1655,7 +1656,8 @@
 
 
       nextGeneration : function() {
-        var x, y, i, j, m, n, key, t1, t2;
+        var x, xm1, xp1, y, ym1, yp1;
+        var i, j, m, n, key, t1, t2;
         var alive = 0, alive1 = 0, alive2 = 0;
         var deadNeighbors;
         var newState = [], newState1 = [], newState2 = [];
@@ -1674,8 +1676,14 @@
             x = this.actualState[i][j];
             y = this.actualState[i][0];
 
+            xm1 = (x-1);
+            ym1 = (y-1);
+
+            xp1 = (x+1);
+            yp1 = (y+1);
+
             // Possible dead neighbors
-            deadNeighbors = [[x-1, y-1, 1], [x, y-1, 1], [x+1, y-1, 1], [x-1, y, 1], [x+1, y, 1], [x-1, y+1, 1], [x, y+1, 1], [x+1, y+1, 1]];
+            deadNeighbors = [[xm1, ym1, 1], [x, ym1, 1], [xp1, ym1, 1], [xm1, y, 1], [xp1, y, 1], [xm1, yp1, 1], [x, yp1, 1], [xp1, yp1, 1]];
 
             // Get number of live neighbors and remove alive neighbors from deadNeighbors
             result = this.getNeighborsFromAlive(x, y, i, this.actualState, deadNeighbors);
@@ -1812,69 +1820,93 @@
         var color1 = 0;
         var color2 = 0;
 
+        var xm1 = (x-1);
+        var xp1 = (x+1);
+
+        var ym1 = (y-1);
+        var yp1 = (y+1);
+
+        // Periodic boundary conditions complicate any checks that end the loops early.
+        var xstencilmin = Math.min(xm1, x, xp1);
+        var xstencilmax = Math.max(xm1, x, xp1);
+
+        var ystencilmin = Math.min(ym1, y, yp1);
+        var ystencilmax = Math.max(ym1, y, yp1);
+
         // color1
         for (i = 0; i < state1.length; i++) {
           var yy = state1[i][0];
 
-          if (yy === (y-1)) {
-            // Top row
-            for (j = 1; j < state1[i].length; j++) {
-              var xx = state1[i][j];
-              if (xx >= (x-1)) {
-                if (xx === (x-1)) {
-                  // top left
-                  color1++;
-                } else if (xx === x) {
-                  // top middle
-                  color1++;
-                } else if (xx === (x+1)) {
-                  // top right
-                  color1++;
+          if (yy >= ystencilmin) {
+
+            if (yy === ym1) {
+              // Top row
+              for (j = 1; j < state1[i].length; j++) {
+                var xx = state1[i][j];
+
+                // Slight difference with periodic algorithm,
+                // checking minimum of x values in the stencil
+                if (xx >= xstencilmin) {
+
+                  if (xx === xm1) {
+                    // top left
+                    color1++;
+                  } else if (xx === x) {
+                    // top middle
+                    color1++;
+                  } else if (xx === xp1) {
+                    // top right
+                    color1++;
+                  }
+                }
+                if (xx >= xstencilmax) {
+                  break;
                 }
               }
-              if (xx >= (x+1)) {
-                break;
+
+            } else if (yy === y) {
+              // Middle row
+              for (j = 1; j < state1[i].length; j++) {
+                var xx = state1[i][j];
+                if (xx >= xstencilmin) {
+                  if (xx === xm1) {
+                    // top left
+                    color1++;
+                  } else if (xx === xp1) {
+                    // top right
+                    color1++;
+                  }
+                }
+                if (xx >= xstencilmax) {
+                  break;
+                }
+              }
+
+            } else if (yy === yp1) {
+              // Bottom row
+              for (j = 1; j < state1[i].length; j++) {
+                var xx = state1[i][j];
+                if (xx >= xstencilmin) {
+                  if (xx === xm1) {
+                    // bottom left
+                    color1++;
+                  } else if (xx === x) {
+                    // bottom middle
+                    color1++;
+                  } else if (xx === xp1) {
+                    // bottom right
+                    color1++;
+                  }
+                }
+                if (xx >= xstencilmax) {
+                  break;
+                }
               }
             }
 
-          } else if (yy === y) {
-            // Middle row
-            for (j = 1; j < state1[i].length; j++) {
-              var xx = state1[i][j];
-              if (xx >= (x-1)) {
-                if (xx === (x-1)) {
-                  // top left
-                  color1++;
-                } else if (xx === (x+1)) {
-                  // top right
-                  color1++;
-                }
-              }
-              if (xx >= (x+1)) {
-                break;
-              }
-            }
-
-          } else if (yy === (y+1)) {
-            // Bottom row
-            for (j = 1; j < state1[i].length; j++) {
-              var xx = state1[i][j];
-              if (xx >= (x-1)) {
-                if (xx === (x-1)) {
-                  // bottom left
-                  color1++;
-                } else if (xx === x) {
-                  // bottom middle
-                  color1++;
-                } else if (xx === (x+1)) {
-                  // bottom right
-                  color1++;
-                }
-              }
-              if (xx >= (x+1)) {
-                break;
-              }
-            }
+          }
+          if (yy >= ystencilmax) {
+            break;
           }
         }
 
@@ -1882,65 +1914,72 @@
         for (i = 0; i < state2.length; i++) {
           var yy = state2[i][0];
 
-          if (yy === (y-1)) {
-            // Top row
-            for (j = 1; j < state2[i].length; j++) {
-              var xx = state2[i][j];
-              if (xx >= (x-1)) {
-                if (xx === (x-1)) {
-                  // top left
-                  color2++;
-                } else if (xx === x) {
-                  // top middle
-                  color2++;
-                } else if (xx === (x+1)) {
-                  // top right
-                  color2++;
+          if (yy >= ystencilmin) {
+
+            if (yy === ym1) {
+              // Top row
+              for (j = 1; j < state2[i].length; j++) {
+                var xx = state2[i][j];
+                if (xx >= xstencilmin) {
+                  if (xx === xm1) {
+                    // top left
+                    color2++;
+                  } else if (xx === x) {
+                    // top middle
+                    color2++;
+                  } else if (xx === xp1) {
+                    // top right
+                    color2++;
+                  }
+                }
+                if (xx >= xstencilmax) {
+                  break;
                 }
               }
-              if (xx >= (x+1)) {
-                break;
+
+            } else if (yy === y) {
+              // Middle row
+              for (j = 1; j < state2[i].length; j++) {
+                var xx = state2[i][j];
+                if (xx >= xstencilmin) {
+                  if (xx === xm1) {
+                    // left
+                    color2++;
+                  } else if (xx === xp1) {
+                    // right
+                    color2++;
+                  }
+                }
+                if (xx >= xstencilmax) {
+                  break;
+                }
+              }
+
+            } else if (yy === yp1) {
+              // Bottom row
+              for (j = 1; j < state2[i].length; j++) {
+                var xx = state2[i][j];
+                if (xx >= xstencilmin) {
+                  if (xx === xm1) {
+                    // bottom left
+                    color2++;
+                  } else if (xx === x) {
+                    // bottom middle
+                    color2++;
+                  } else if (xx === xp1) {
+                    // bottom right
+                    color2++;
+                  }
+                }
+                if (xx >= xstencilmax) {
+                  break;
+                }
               }
             }
 
-          } else if (yy === y) {
-            // Middle row
-            for (j = 1; j < state2[i].length; j++) {
-              var xx = state2[i][j];
-              if (xx >= (x-1)) {
-                if (xx === (x-1)) {
-                  // left
-                  color2++;
-                } else if (xx === (x+1)) {
-                  // right
-                  color2++;
-                }
-              }
-              if (xx >= (x+1)) {
-                break;
-              }
-            }
-
-          } else if (yy === (y+1)) {
-            // Bottom row
-            for (j = 1; j < state2[i].length; j++) {
-              var xx = state2[i][j];
-              if (xx >= (x-1)) {
-                if (xx === (x-1)) {
-                  // bottom left
-                  color2++;
-                } else if (xx === x) {
-                  // bottom middle
-                  color2++;
-                } else if (xx === (x+1)) {
-                  // bottom right
-                  color2++;
-                }
-              }
-              if (xx >= (x+1)) {
-                break;
-              }
-            }
+          }
+          if (yy >= ystencilmax) {
+            break;
           }
         }
 
@@ -1963,18 +2002,30 @@
        *
        */
       getNeighborsFromAlive : function (x, y, i, state, possibleNeighborsList) {
+        var xm1 = (x-1);
+        var xp1 = (x+1);
+
+        var ym1 = (y-1);
+        var yp1 = (y+1);
+
+        var xstencilmin = Math.min(xm1, x, xp1);
+        var xstencilmax = Math.max(xm1, x, xp1);
+
+        var ystencilmin = Math.min(ym1, y, yp1);
+        var ystencilmax = Math.max(ym1, y, yp1);
+
         var neighbors = 0, k;
         var neighbors1 = 0, neighbors2 = 0;
 
         // Top
         if (state[i-1] !== undefined) {
-          if (state[i-1][0] === (y - 1)) {
+          if (state[i-1][0] === ym1) {
             for (k = this.topPointer; k < state[i-1].length; k++) {
 
-              if (state[i-1][k] >= (x-1) ) {
+              if (state[i-1][k] >= xstencilmin ) {
 
                 // NW
-                if (state[i-1][k] === (x - 1)) {
+                if (state[i-1][k] === xm1) {
                   possibleNeighborsList[0] = undefined;
                   this.topPointer = k + 1;
                   neighbors++;
@@ -2004,7 +2055,7 @@
                 }
 
                 // NE
-                if (state[i-1][k] === (x + 1)) {
+                if (state[i-1][k] === xp1) {
                   possibleNeighborsList[2] = undefined;
 
                   if (k == 1) {
@@ -2025,7 +2076,7 @@
                   }
                 }
 
-                if (state[i-1][k] > (x + 1)) {
+                if (state[i-1][k] > xstencilmax) {
                   break;
                 }
               }
@@ -2035,9 +2086,9 @@
 
         // Middle
         for (k = 1; k < state[i].length; k++) {
-          if (state[i][k] >= (x - 1)) {
+          if (state[i][k] >= xstencilmin) {
 
-            if (state[i][k] === (x - 1)) {
+            if (state[i][k] === xm1) {
               possibleNeighborsList[3] = undefined;
               neighbors++;
               var xx = state[i][k];
@@ -2050,7 +2101,7 @@
               }
             }
 
-            if (state[i][k] === (x + 1)) {
+            if (state[i][k] === xp1) {
               possibleNeighborsList[4] = undefined;
               neighbors++;
               var xx = state[i][k];
@@ -2063,7 +2114,7 @@
               }
             }
 
-            if (state[i][k] > (x + 1)) {
+            if (state[i][k] > xstencilmax) {
               break;
             }
           }
@@ -2071,11 +2122,11 @@
 
         // Bottom
         if (state[i+1] !== undefined) {
-          if (state[i+1][0] === (y + 1)) {
+          if (state[i+1][0] === yp1) {
             for (k = this.bottomPointer; k < state[i+1].length; k++) {
-              if (state[i+1][k] >= (x - 1)) {
+              if (state[i+1][k] >= xstencilmin) {
 
-                if (state[i+1][k] === (x - 1)) {
+                if (state[i+1][k] === xm1) {
                   possibleNeighborsList[5] = undefined;
                   this.bottomPointer = k + 1;
                   neighbors++;
@@ -2103,7 +2154,7 @@
                   }
                 }
 
-                if (state[i+1][k] === (x + 1)) {
+                if (state[i+1][k] === xp1) {
                   possibleNeighborsList[7] = undefined;
 
                   if (k == 1) {
@@ -2123,7 +2174,7 @@
                   }
                 }
 
-                if (state[i+1][k] > (x + 1)) {
+                if (state[i+1][k] > xstencilmax) {
                   break;
                 }
               }
@@ -2208,7 +2259,6 @@
 
         for (i = 0; i < state.length; i++) {
           if (state[i][0] === y) {
-
             if (state[i].length === 2) { // Remove all Row
               state.splice(i, 1);
             } else { // Remove Element
