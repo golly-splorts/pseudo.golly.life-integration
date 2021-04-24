@@ -25,7 +25,7 @@
 
     baseApiUrl : getBaseApiUrl(),
     baseUIUrl : getBaseUIUrl(),
-    mapsApiUrl : 'https://maps.golly456.life',
+    mapsApiUrl : getMapsApiUrl(),
 
     // this may duplicate / between the base url and simulator
     baseSimulatorUrl : getBaseUIUrl() + '/simulator/index.html',
@@ -304,11 +304,11 @@
           var gameTitleElem = document.getElementById('golly-game-title');
           if (gameApiResult.isPostseason == true) {
             var sp1 = gameApiResult.season + 1;
-            gameTitleElem.innerHTML = "Golly: " + gameApiResult.description + " <small>- S" + sp1 + "</small>";
+            gameTitleElem.innerHTML = "Pseudo Cup: " + gameApiResult.description + " <small>- S" + sp1 + "</small>";
           } else {
             var sp1 = gameApiResult.season + 1;
             var dp1 = gameApiResult.day + 1;
-            var descr = "Golly: Season " + sp1 + " Day " + dp1;
+            var descr = "Pseudo Cup: Season " + sp1 + " Day " + dp1;
             gameTitleElem.innerHTML = descr;
           }
 
@@ -384,7 +384,7 @@
 
           // Set the game title
           var gameTitleElem = document.getElementById('golly-game-title');
-          gameTitleElem.innerHTML = "Pseudo Cup Map: " + mapApiResult.mapName;
+          gameTitleElem.innerHTML = "Pseudo Map: " + mapApiResult.mapName;
 
           this.setTeamNames();
           this.setColors();
@@ -434,7 +434,7 @@
 
           // Set the game title
           var gameTitleElem = document.getElementById('golly-game-title');
-          gameTitleElem.innerHTML = "Golly Random Pattern";
+          gameTitleElem.innerHTML = "Pseudo Random Pattern";
 
         } else if ((this.s1user != null) || (this.s2user != null)) {
           if (this.s1user != null) {
@@ -450,7 +450,7 @@
 
           // Set the game title
           var gameTitleElem = document.getElementById('golly-game-title');
-          gameTitleElem.innerHTML = "Golly Sandbox";
+          gameTitleElem.innerHTML = "Pseudo Sandbox";
 
         } else {
           this.initialState1 = this.s1Default;
@@ -458,7 +458,7 @@
 
           // Set the game title
           var gameTitleElem = document.getElementById('golly-game-title');
-          gameTitleElem.innerHTML = "Golly Sandbox";
+          gameTitleElem.innerHTML = "Pseudo Sandbox";
 
         }
 
@@ -749,7 +749,6 @@
     setInitialState : function() {
 
       // state 1 parameter
-      //if (true) {
       if (this.initialState1 === 'random') {
         this.randomState(1);
       } else {
@@ -768,7 +767,6 @@
       }
 
       // state 2 parameter
-      //if (true) {
       if (this.initialState2 === 'random') {
         this.randomState(2);
       } else {
@@ -1682,7 +1680,7 @@
             // Get number of live neighbors and remove alive neighbors from deadNeighbors
             result = this.getNeighborsFromAlive(x, y, i, this.actualState, deadNeighbors);
             neighbors = result['neighbors'];
-            color = result['color'];
+            // color = result['color'];
 
             // Join dead neighbors to check list
             for (m = 0; m < 8; m++) {
@@ -1704,32 +1702,33 @@
             // survive counts
             //
             // // 34 life (too slow)
-            // if ((neighbors == 3) || (neighbors == 4)) {
+            // if ((neighbors == 3) || (neighbors == 4)) {} 
             // // coagulations (blows up)
-            // if (!(neighbors === 1)) {
+            // if (!(neighbors === 1)) {} 
             // // gnarl (way too slow/chaotic)
-            // if (neighbors === 1) {
+            // if (neighbors === 1) {} 
             // // long life (boring)
-            // if (neighbors===5) {
+            // if (neighbors===5) {} 
             // // stains (too slow)
-            // if (!((neighbors===1)||(neighbors===4))) {
+            // if (!((neighbors===1)||(neighbors===4))) {} 
             // // walled cities
-            // if ((neighbors > 1) && (neighbors < 6)) {
+            // if ((neighbors > 1) && (neighbors < 6)) {} 
             //
             // // conway's life
-            // if (!(neighbors === 0 || neighbors === 1 || neighbors > 3)) {
+            // if (!(neighbors === 0 || neighbors === 1 || neighbors > 3)) {} 
             // // amoeba life (good)
-            // if ((neighbors === 1) || (neighbors === 3) || (neighbors === 5) || (neighbors === 8)) {
+            // if ((neighbors === 1) || (neighbors === 3) || (neighbors === 5) || (neighbors === 8)) {} 
             // // high life (good, but some oscillators blow up)
-            // if ((neighbors===2)||(neighbors===3)) {
+            // if ((neighbors===2)||(neighbors===3)) {} 
             // // 2x2 (good, but victory conditions *may* need to change)
-            // if ((neighbors===1)||(neighbors===2)||(neighbors===5)){
+            // if ((neighbors===1)||(neighbors===2)||(neighbors===5)){} 
             // // // pseudo life (good)
-            // if ((neighbors===2)||(neighbors===3)||(neighbors===8)) {
+            // if ((neighbors===2)||(neighbors===3)||(neighbors===8)) {} 
 
-            // // pseudo life (good)
+            // pseudo life (good)
             if ((neighbors===2)||(neighbors===3)||(neighbors===8)) {
 
+              color = this.getCellColor(x, y);
               this.addCell(x, y, newState);
               if (color==1) {
                 this.addCell(x, y, newState1);
@@ -1749,28 +1748,28 @@
           // birth counts
           //
           // // 34 life (too slow)
-          // if ((allDeadNeighbors[key] === 3) || (allDeadNeighbors[key] === 4)) {
+          // if ((allDeadNeighbors[key] === 3) || (allDeadNeighbors[key] === 4)) {} 
           // coagulations
-          // if ((allDeadNeighbors[key] === 3) || (allDeadNeighbors[key] === 7) || (allDeadNeighbors[key] === 8)) {
+          // if ((allDeadNeighbors[key] === 3) || (allDeadNeighbors[key] === 7) || (allDeadNeighbors[key] === 8)) {} 
           // // gnarl (way too slow/chaotic)
-          // if (allDeadNeighbors[key] === 1) {
+          // if (allDeadNeighbors[key] === 1) {} 
           // // long life (boring)
-          // if ((allDeadNeighbors[key] === 3) || (allDeadNeighbors[key] === 4) || (allDeadNeighbors[key] === 5)) {
+          // if ((allDeadNeighbors[key] === 3) || (allDeadNeighbors[key] === 4) || (allDeadNeighbors[key] === 5)) {} 
           // // stains (too slow)
-          // if ((allDeadNeighbors[key]===3)||(allDeadNeighbors[key]>5)) {
+          // if ((allDeadNeighbors[key]===3)||(allDeadNeighbors[key]>5)) {} 
           // // walled cities (boring)
-          // if (allDeadNeighbors[key] > 3) {
+          // if (allDeadNeighbors[key] > 3) {} 
           //
           // // conway's life
-          // if (allDeadNeighbors[key] === 3) {
+          // if (allDeadNeighbors[key] === 3) {} 
           // // amoeba life (good)
-          // if ((allDeadNeighbors[key] === 3) || (allDeadNeighbors[key] === 5) || (allDeadNeighbors[key] === 7)) {
+          // if ((allDeadNeighbors[key] === 3) || (allDeadNeighbors[key] === 5) || (allDeadNeighbors[key] === 7)) {}
           // // high life (good, but some oscillators blow up)
-          // if ((allDeadNeighbors[key] === 3) || (allDeadNeighbors[key] === 6)) {
+          // if ((allDeadNeighbors[key] === 3) || (allDeadNeighbors[key] === 6)) {} 
           // // 2x2 (good, but victory conditions *may* need to change)
-          // if ((allDeadNeighbors[key]===3) || (allDeadNeighbors[key]===6)) {
+          // if ((allDeadNeighbors[key]===3) || (allDeadNeighbors[key]===6)) {} 
           // // // pseudo life (good)
-          // if ((allDeadNeighbors[key]==3)||(allDeadNeighbors[key]==5)||(allDeadNeighbors[key]==7)) {
+          // if ((allDeadNeighbors[key]==3)||(allDeadNeighbors[key]==5)||(allDeadNeighbors[key]==7)) {} 
 
           // // pseudo life (good)
           if ((allDeadNeighbors[key]==3)||(allDeadNeighbors[key]==5)||(allDeadNeighbors[key]==7)) {

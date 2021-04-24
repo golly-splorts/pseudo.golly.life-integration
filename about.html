@@ -10,7 +10,7 @@
     <script>
 var baseUIUrl  = 'https://pseudo.integration.golly456.life';
 var baseApiUrl = 'https://cloud.pseudo.golly456.life';
-var mapsApiUrl = 'https://cloud.pseudo.golly456.life';
+var mapsApiUrl = 'https://maps.golly456.life';
     </script>
 
     <!--
@@ -24,8 +24,8 @@ var mapsApiUrl = 'https://cloud.pseudo.golly456.life';
 
     <!--
         Versions:
-        golly-pelican: 20.0.0.dev0
-        golly-pelican-theme: 20.0.0.dev0
+        gollyx-pseudo-pelican: 
+        gollyx-pseudo-pelican-theme: 20.0.0.dev0
     -->
 
 
@@ -96,9 +96,6 @@ var mapsApiUrl = 'https://cloud.pseudo.golly456.life';
               Teams<span class="caret"></span>
           </a>
           <div id="navbar-explore-dropdown-menu" class="dropdown-menu" aria-labelledby="themes">
-            <a class="dropdown-item" href="https://pseudo.integration.golly456.life/simulator/index.html">Simulator</a>
-            <a class="dropdown-item" href="https://pseudo.integration.golly456.life/maps.html">Maps</a>
-            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="https://wiki.golly.life/wiki/Alewife_Arsonists">Alewife Arsonists</a>
             <a class="dropdown-item" href="https://wiki.golly.life/wiki/Albuquerque_Solarpunks">Albuquerque Solarpunks</a>
             <a class="dropdown-item" href="https://wiki.golly.life/wiki/Boylston_Boogers">Boylston Boogers</a>
@@ -161,10 +158,17 @@ var mapsApiUrl = 'https://cloud.pseudo.golly456.life';
 <div id="article-div-container" class="container">
   <div id="article-div-row" class="row">
     <div id="article-div-col12" class="col-md-12">
-      <h1>About GollyX</h1>
-<p>GollyX is the experimental version of <a href="https://golly.life">Golly</a>. Golly implements
-a two-color version of Conway's Game of Life, and GollyX implements other versions of
-cellular autonoma rules and colors.</p>
+      <h1>About the GollyX Pseudo Cup</h1>
+<p>GollyX is the experimental version of <a href="https://golly.life">Golly</a>.</p>
+<p>Golly implements a two-color version of Conway's Game of Life, and GollyX implements
+other versions of cellular autonoma rules and colors.</p>
+<p>The Pseudo Cup is an implementation of pseudo life, which varies the original rules
+of Conway's Game of Life. Conway's Game of Life implements the rule B3/S23 (cells are
+born if they have 3 neighbors, and survive if they have 2 or 3 neighbors). Pseudo life
+implements the rule B357/S238 (cells are born if they have 3, 5, or 7 neighbors,
+and survive if they have 2, 3, or 8 neighbors).</p>
+<p>Pseudo life exhibits similar chaotic patterns to Conway's Game of Life, but many
+patterns (including gliders) do not exist in pseudo life.</p>
 <p>For more information, see <a href="https://golly.life/about">https://golly.life/about</a>.</p>
     </div>
   </div>

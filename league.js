@@ -142,6 +142,7 @@
               // to the league standings page
               //
               // <li>
+              //   <h6>
               //     <span>
               //         (icon)
               //         (team name)
@@ -149,6 +150,7 @@
               //     <span>
               //          (team win/loss record)
               //     </span>
+              //   </h6>
               // </li>
 
               // Add an li element for this team
@@ -159,7 +161,10 @@
               liElem.classList.add('align-items-center');
 
               // ----------------
-              // Left side: name + icon in a single span
+              // Left side: name + icon in a single span, wrapped by <h6>
+              var h6 = document.createElement('h6');
+              h6.classList.add('standings-team-name');
+
               var nameiconId = 'league-name-icon-holder';
               var nameicon = document.createElement('span');
               nameicon.setAttribute('id', nameiconId);
@@ -213,25 +218,33 @@
               nameSpanElem.style.color = teamStandings.teamColor;
               nameicon.appendChild(nameSpanElem);
 
-              // Attach to left side
-              liElem.appendChild(nameicon);
+              // // Attach to left side
+              // liElem.appendChild(nameicon);
+
+              // Attach nameicon to h6
+              h6.appendChild(nameicon);
+              // Attach h6 to left side
+              liElem.appendChild(h6);
 
               // ----------------
-              // Right side: win-loss record
+              // Right side: win-loss record, wrapped by <h6>
+              var h6r = document.createElement('h6');
+              h6r.classList.add('standings-team-record');
+
               var wlElem = document.createElement('span');
               wlElem.classList.add('standings-record');
               var winLossStr = teamStandings.teamWinLoss[0] + "-" + teamStandings.teamWinLoss[1];
               wlElem.innerHTML = winLossStr;
 
-              // Attach to right side
-              liElem.appendChild(wlElem);
+              //// Attach to right side
+              //liElem.appendChild(wlElem);
+
+              // Attach W-L record to h6 header
+              h6r.appendChild(wlElem);
+              // Attach h6 header to li element
+              liElem.appendChild(h6r);
 
               ulElem.appendChild(liElem);
-
-
-
-
-
 
             } // finish for each team in the standings
 
