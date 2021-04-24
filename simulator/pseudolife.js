@@ -1680,7 +1680,7 @@
             // Get number of live neighbors and remove alive neighbors from deadNeighbors
             result = this.getNeighborsFromAlive(x, y, i, this.actualState, deadNeighbors);
             neighbors = result['neighbors'];
-            // color = result['color'];
+            color = result['color'];
 
             // Join dead neighbors to check list
             for (m = 0; m < 8; m++) {
@@ -1728,7 +1728,6 @@
             // pseudo life (good)
             if ((neighbors===2)||(neighbors===3)||(neighbors===8)) {
 
-              color = this.getCellColor(x, y);
               this.addCell(x, y, newState);
               if (color==1) {
                 this.addCell(x, y, newState1);
