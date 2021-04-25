@@ -281,6 +281,7 @@
       var unixStart = Math.floor(Date.now() / 1000) + countdownSeconds;
       var flipdown = new FlipDown(unixStart, {
         headings: ["D", "H", "M", "S"],
+        theme: "light",
       }).start();
     },
 
