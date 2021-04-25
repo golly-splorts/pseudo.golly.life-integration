@@ -2,17 +2,21 @@
     color: #6BD0FF;
 }
 
+.navbar-div-container {
+  font-size: 1rem !important;
+}
+
 .btn-success {
-    background-color: #559000 !important;
-    border-color: #559000 !important;
+  background-color: #559000 !important;
+  border-color: #559000 !important;
 }
 
 .bg-primary {
-    background-color: #3a3a40 !important;
+  background-color: #3a3a40 !important;
 }
 
 .badge-primary {
-    background-color: #3a3a40 !important;
+  background-color: #3a3a40 !important;
 }
 
 .navbar-brand-logo {
