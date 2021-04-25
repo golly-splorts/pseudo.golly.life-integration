@@ -244,7 +244,7 @@
      */
     populateLdsGames : function(miniseason, seriesContainerElem, iLeague, iSeries) {
       var league = this.leagues[iLeague];
-      var seriesMatchText = "Series " + (iSeries + 1);
+      var seriesMatchText = /\d$/g;
 
       var iDay;
       for (iDay = 0; iDay < miniseason.length; iDay++) {
