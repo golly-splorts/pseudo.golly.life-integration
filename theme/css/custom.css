@@ -1,11 +1,22 @@
 .navbar-dark .navbar-brand {
-    color: #6BD0FF;
+  color: #6BD0FF;
 }
 
-.navbar-div-container {
-  font-size: 1rem !important;
+/* navbar color */
+.navbar-dark .navbar-brand,
+.navbar-dark .navbar-brand:hover {
+  color: #6BD0FF !important;
 }
 
+/* navbar logo padding */
+.navbar-brand-logo {
+  width: 25px;
+  height: 25px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+/* cyborg color adjustments */
 .btn-success {
   background-color: #559000 !important;
   border-color: #559000 !important;
@@ -19,13 +30,7 @@
   background-color: #3a3a40 !important;
 }
 
-.navbar-brand-logo {
-  width: 25px;
-  height: 25px;
-  margin-left: 15px;
-  margin-right: 15px;
-}
-
+/* cyborg size adjustments */
 h1 {
   font-size: 2.2rem !important;
 }
@@ -82,6 +87,8 @@ body {
   padding-top: 70px;
   /* no navbar: */
   /*padding-top: 20px;*/
+  /* fix too-tiny fonts */
+  font-size: 1rem !important;
 }
 
 .card {
