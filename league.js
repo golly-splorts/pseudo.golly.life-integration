@@ -246,6 +246,11 @@
 
               ulElem.appendChild(liElem);
 
+
+
+
+
+
             } // finish for each team in the standings
 
             iD++;

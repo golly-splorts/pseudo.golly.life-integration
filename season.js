@@ -56,6 +56,18 @@
           elem.remove();
         }
       }
+      var loadingContainer = document.getElementById('loading-container');
+      if (show) {
+        // Make loading message container uninvisible
+        if (loadingContainer != null) {
+          loadingContainer.classList.remove('invisible');
+        }
+      } else {
+        // Remove the loading message container
+        if (loadingContainer != null) {
+          loadingContainer.remove();
+        }
+      }
     },
 
     /**
@@ -90,11 +102,11 @@
         }
 
         if (this.season < this.currentSeason) {
-          //this.updateSeasonHeader(this.season);
+          this.updateSeasonHeader(this.season);
           this.processSeasonData(this.season);
 
         } else if (this.season == this.currentSeason) {
-          //this.updateSeasonHeader(this.season);
+          this.updateSeasonHeader(this.season);
           if (mode < 0) {
             throw "Invalid mode " + mode;
           } else if (mode < 10) {
@@ -127,6 +139,25 @@
       // Show waiting for postseason message
       var waitingElem = document.getElementById('container-season-waiting');
       waitingElem.classList.remove('invisible');
+    },
+
+    /**
+     * Update the "Season X" or "Season X Day Y" header with information
+     * from the API /today endpoint.
+     */
+    updateSeasonHeader : function(season0) {
+
+      var seasonHeaderContainer = document.getElementById('season-header-container');
+
+      // get element by id "landing-header-season" and change innerHTML to current season
+      var seasonHead = document.getElementById('season-header-season-number');
+      if (seasonHead != null) {
+        var sp1 = parseInt(season0) + 1;
+        seasonHead.innerHTML = sp1;
+      }
+
+      seasonHeaderContainer.classList.remove('invisible');
+
     },
 
     /**
