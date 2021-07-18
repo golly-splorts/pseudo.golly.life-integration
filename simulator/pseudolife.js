@@ -772,8 +772,11 @@
             for (icol = 0 ; icol < state2[irow][y].length ; icol++) {
               var yy = parseInt(y);
               var xx = state2[irow][yy][icol];
-              this.listLife.addCell(xx, yy, this.listLife.actualState);
-              this.listLife.addCell(xx, yy, this.listLife.actualState2);
+              // Check if xx, yy is already in actualState (south perimeter bug)
+              if (!this.listLife.isAlive(xx, yy)) {
+                this.listLife.addCell(xx, yy, this.listLife.actualState);
+                this.listLife.addCell(xx, yy, this.listLife.actualState2);
+              }
             }
           }
         }
