@@ -15,7 +15,6 @@
 
 (function () {
 
-  //var realBackgroundColor = "#272b30";
   var realBackgroundColor = "#060606";
   var gridStrokeColor1    = "#3a3a3a";
   var mapZoneStrokeColor  = "#dddddd";
@@ -304,11 +303,11 @@
           var gameTitleElem = document.getElementById('golly-game-title');
           if (gameApiResult.isPostseason == true) {
             var sp1 = gameApiResult.season + 1;
-            gameTitleElem.innerHTML = gameApiResult.description + " <small>- S" + sp1 + "</small>";
+            gameTitleElem.innerHTML = "Pseudo Cup: " + gameApiResult.description + " <small>- S" + sp1 + "</small>";
           } else {
             var sp1 = gameApiResult.season + 1;
             var dp1 = gameApiResult.day + 1;
-            var descr = "Pseudo Cup: Season " + sp1 + " Day " + dp1;
+            var descr = "Pseudo Season " + sp1 + " Day " + dp1;
             gameTitleElem.innerHTML = descr;
           }
 
@@ -333,7 +332,9 @@
           this.initialState2 = this.gameApiResult.initialConditions2;
           this.columns = this.gameApiResult.columns;
           this.rows = this.gameApiResult.rows;
-          this.cellSize = this.gameApiResult.cellSize;
+          // Override for easier viewing
+          // this.cellSize = this.gameApiResult.cellSize;
+          this.cellSize = 6;
           this.mapName = this.gameApiResult.mapName;
           this.mapZone1Name = this.gameApiResult.mapZone1Name;
           this.mapZone2Name = this.gameApiResult.mapZone2Name;
@@ -389,8 +390,9 @@
           this.initialState2 = mapApiResult.initialConditions2;
           this.columns = mapApiResult.columns;
           this.rows = mapApiResult.rows;
-          this.cellSize = mapApiResult.cellSize;
-
+          // Override for easier viewing
+          // this.cellSize = mapApiResult.cellSize;
+          this.cellSize = 6;
           this.mapName = mapApiResult.mapName;
           this.mapZone1Name = mapApiResult.mapZone1Name;
           this.mapZone2Name = mapApiResult.mapZone2Name;
@@ -703,7 +705,7 @@
       // if invalid or not specified
       cellSize = parseInt(this.helpers.getUrlParameter('cellSize'));
       if (isNaN(cellSize) || cellSize < 1 || cellSize > 10) {
-        cellSize = 7;
+        cellSize = 6;
       }
       if (cellSize <= 5) {
         // Turn off the grid
