@@ -29,6 +29,30 @@
     },
 
     /**
+     * Add the minilife player to the appropriate <div> element
+     */
+    minilife : function() {
+      var minilife = document.getElementById('minilife-player');
+      var template = document.getElementById('minilife-template');
+      var clone = template.content.cloneNode(true);
+      minilife.appendChild(clone);
+
+      var bod = document.getElementsByTagName('body')[0];
+      var jsfiles = ['json-sans-eval.js', 'minilife.js'];
+      for (let j in jsfiles) {
+        var script = document.createElement('script');
+        script.setAttribute('type', 'text/javascript');
+        script.setAttribute('src', this.baseUIUrl + '/theme/js/' + jsfiles[j]);
+        bod.append(script);
+        if (j==1) {
+          script.onload = () => {
+            MiniGOL.init();
+          }
+        }
+      }
+    },
+
+    /**
      * Register Event
      */
     registerEvent : function (element, event, handler, capture) {
